@@ -1,0 +1,18 @@
+syntax = "proto3";
+package vk.v1;
+
+service VkAnalytics {
+  rpc GetUser (EntityRequest) returns (UserResponse);
+  rpc GetGroup (EntityRequest) returns (GroupResponse);
+  rpc ListTrackedUsers (Empty) returns (TrackedUsersResponse);
+  rpc GetOnlineHistory (HistoryRequest) returns (HistoryResponse);
+}
+message Empty {}
+message EntityRequest { string id = 1; }
+message UserResponse { int64 id = 1; string first_name = 2; string last_name = 3; bool online = 4; int64 followers_count = 5; }
+message GroupResponse { int64 id = 1; string name = 2; string screen_name = 3; int64 members_count = 4; string description = 5; }
+message TrackedUser { int64 id = 1; optional bool online = 2; optional string checked_at = 3; }
+message TrackedUsersResponse { repeated TrackedUser users = 1; }
+message HistoryRequest { int64 user_id = 1; int32 limit = 2; }
+message OnlineEvent { int64 user_id = 1; bool online = 2; string observed_at = 3; }
+message HistoryResponse { repeated OnlineEvent events = 1; }
